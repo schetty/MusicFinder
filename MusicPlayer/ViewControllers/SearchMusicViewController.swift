@@ -61,7 +61,7 @@ class SearchMusicViewController: UIViewController, UITableViewDelegate, UITableV
             
             if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
                 textfield.textColor = UIColor.darkGray
-                textfield.placeholder = "Search for music here..."
+                textfield.placeholder = "Enter the name of a song..."
                 if let backgroundview = textfield.subviews.first {
                     // Background color
                     backgroundview.backgroundColor = UIColor.white
@@ -100,8 +100,13 @@ class SearchMusicViewController: UIViewController, UITableViewDelegate, UITableV
     //MARK:- UISearchBarDelegate Methods
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         // remove all objects in the array if the search is canceled.
+        self.noResultsView.isHidden = true
         totalMusicResultsArray.removeAll()
         paginatedMusicResultsArray.removeAll()
+    }
+    // When the search controller is inactive, hide the no results view
+    func didDismissSearchController(_ searchController: UISearchController) {
+        self.noResultsView.isHidden = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -111,7 +116,7 @@ class SearchMusicViewController: UIViewController, UITableViewDelegate, UITableV
             paginatedMusicResultsArray.removeAll()
         }
     }
-    
+    // When the search controller is active, hide the no results view
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.noResultsView.isHidden = true
     }
